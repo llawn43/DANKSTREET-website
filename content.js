@@ -22,6 +22,7 @@ window.DANK_STREET = {
   heroPhotos: [
     "assets/img/photos/live-02-otherworld.jpg",
     "assets/img/photos/live-03-barbary.jpg",
+    "assets/img/photos/live-07-pro-pic.jpg",
     "assets/img/photos/live-05-press.jpg",
     "assets/img/photos/live-06-otherworld-2.jpg",
     "assets/img/photos/live-04-epk-shot.jpg",

@@ -205,7 +205,9 @@ body.route-active .hero {
   z-index: 2;
   width: min(52vmin, 380px);
   height: min(52vmin, 380px);
-  touch-action: none;
+  /* pan-y hands vertical swipes back to the page so the emblem cannot trap
+     scrolling on touch devices; horizontal drags still reach the canvas. */
+  touch-action: pan-y;
   cursor: grab;
   filter: drop-shadow(0 28px 70px rgba(124, 58, 237, 0.4));
 }

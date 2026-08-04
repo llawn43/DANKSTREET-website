@@ -21,6 +21,7 @@ Populated from:
 | `covers/*.jpg` | Music section release art (800×800) |
 | `photos/live-01-headshot.jpg` | Contact headshot |
 | `photos/live-02` … `live-06` | Hero photo wash (Otherworld, Barbary, EPK shot, press) |
+| `photos/live-07-pro-pic.jpg` | Hero photo wash (`PRESS SHOTS/PRO PIC.png`, 1004×1528 native) |
 | `photos/poster-01.jpg` … `poster-04.jpg` | Stills from Barbary media-kit video |
 | `social/*.svg` | Socials section brand marks (Simple Icons, 24×24 single-path) |
 

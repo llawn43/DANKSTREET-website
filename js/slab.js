@@ -35,6 +35,12 @@
   var FRICTION = 0.94;
   var dragging = false;
   var lastX = 0;
+  // Touch gestures start undecided: the first few pixels decide whether the
+  // drag spins the slab or is handed back to the browser as a page scroll.
+  var startX = 0;
+  var startY = 0;
+  var axis = "";
+  var AXIS_SLOP = 8;
 
   var W = 300;
   var H = 300;
@@ -208,14 +214,32 @@
 
   function pointerDown(e) {
     dragging = true;
-    lastX = e.touches ? e.touches[0].clientX : e.clientX;
+    var t = e.touches ? e.touches[0] : e;
+    lastX = t.clientX;
+    startX = t.clientX;
+    startY = t.clientY;
+    axis = e.touches ? "" : "x";
     if (window.DankAudio && window.DankAudio.sfx) window.DankAudio.sfx("click");
   }
   function pointerMove(e) {
     if (!dragging) return;
-    var x = e.touches ? e.touches[0].clientX : e.clientX;
-    var dx = x - lastX;
-    lastX = x;
+    var t = e.touches ? e.touches[0] : e;
+
+    if (!axis) {
+      var totalX = Math.abs(t.clientX - startX);
+      var totalY = Math.abs(t.clientY - startY);
+      if (totalX < AXIS_SLOP && totalY < AXIS_SLOP) return;
+      axis = totalX > totalY ? "x" : "y";
+      if (axis === "y") {
+        // Vertical intent: let the browser scroll the page instead.
+        dragging = false;
+        return;
+      }
+      lastX = t.clientX;
+    }
+
+    var dx = t.clientX - lastX;
+    lastX = t.clientX;
     var delta = dx * 0.012;
     yaw += delta;
     vel = delta;
@@ -224,6 +248,7 @@
   function pointerUp() {
     if (!dragging) return;
     dragging = false;
+    axis = "";
     var max = 0.45;
     if (vel > max) vel = max;
     if (vel < -max) vel = -max;
