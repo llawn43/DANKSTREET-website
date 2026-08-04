@@ -15,25 +15,37 @@ Repo: https://github.com/llawn43/DANKSTREET-website (branch `main`)
   relative URLs). They currently point at the github.io address — step 5 below
   swaps them to the real domain.
 
-## 1. Turn on GitHub Pages
+## 1. Turn on GitHub Pages — DONE
 
-1. Go to the repo, then **Settings** to **Pages** (under "Code and automation").
-2. Under **Build and deployment**, set **Source** to `Deploy from a branch`.
-3. Set the branch to `main` and the folder to `/ (root)`. Click **Save**.
-
-The repo must be public for Pages on a free account. It already is.
-
-## 2. Confirm it works
-
-Give it 1-2 minutes for the first build, then open:
+Pages is enabled from branch `main`, folder `/ (root)`, and the site is live at:
 
 https://llawn43.github.io/DANKSTREET-website/
 
-Click every nav tab, confirm the Spotify embeds load, and turn the Sound toggle
-on. If assets 404, the branch or folder in step 1 is wrong.
+It is served by GitHub and no longer depends on your machine. Everything below is
+only needed for the custom domain.
 
-At this point the site is live in the cloud and no longer depends on your
-machine. Everything below is only needed for the custom domain.
+(For reference, the setting lives at repo **Settings** to **Pages** to **Build and
+deployment**. The repo must stay public for Pages on a free account.)
+
+## 2. Do not set the custom domain before the domain resolves
+
+Learned the hard way on 2026-08-04. Entering a domain under **Settings** to
+**Pages** to **Custom domain** commits a `CNAME` file, and from that moment Pages
+**stops serving the github.io URL** and 301-redirects it to your custom domain:
+
+```
+HTTP/1.1 301 Moved Permanently
+Location: http://dankstreetmusic.com/
+```
+
+If that domain is not registered yet, the redirect goes nowhere and the site is
+unreachable at *both* addresses, even though the build is perfectly fine. GitHub
+shows a DNS warning when you save but still saves it.
+
+So the order matters: **register the domain and get DNS resolving first**, then
+attach it in GitHub. If you ever need to undo it, delete the `CNAME` file from the
+branch and push — that clears the custom domain and the github.io URL starts
+working again within about a minute.
 
 ## 3. Verify the domain (recommended, do before step 4)
 
@@ -47,10 +59,15 @@ gives you a `TXT` record to add at your registrar, then you click verify.
 **Do not hand-create a `CNAME` file.** Setting the domain in the UI makes GitHub
 commit that file for you, and a hand-made one that disagrees will break the build.
 
-1. Repo **Settings** to **Pages** to **Custom domain**. Type the domain, click **Save**.
-2. At your registrar's DNS panel, add the records for your chosen setup.
+Per step 2, do these in this order:
 
-For an apex domain (`dankstreet.com`) add all four `A` records on name `@`:
+1. Register `dankstreetmusic.com` at your registrar.
+2. At the registrar's DNS panel, add the records below.
+3. Confirm they resolve (the `Resolve-DnsName` checks further down).
+4. Only then: repo **Settings** to **Pages** to **Custom domain**, type
+   `dankstreetmusic.com`, click **Save**.
+
+For the apex domain (`dankstreetmusic.com`) add all four `A` records on name `@`:
 
 ```
 185.199.108.153
@@ -84,26 +101,37 @@ DNS can take up to 24 hours to propagate, though it is usually minutes. Check it
 from PowerShell with:
 
 ```powershell
-Resolve-DnsName dankstreet.com -Type A
-Resolve-DnsName www.dankstreet.com -Type CNAME
+Resolve-DnsName dankstreetmusic.com -Type A
+Resolve-DnsName www.dankstreetmusic.com -Type CNAME
 ```
 
-3. Once the certificate is issued (can take up to 24h), tick **Enforce HTTPS**
+5. Once the certificate is issued (can take up to 24h), tick **Enforce HTTPS**
    on the Pages settings screen.
 
-4. Run `git pull` locally to bring down the `CNAME` commit GitHub made, otherwise
+6. Run `git pull` locally to bring down the `CNAME` commit GitHub made, otherwise
    your next push will conflict.
+
+If you register at Cloudflare, set the record's proxy status to **DNS only** (grey
+cloud) for setup. If you later turn proxying on, set SSL/TLS mode to **Full** —
+the default Flexible mode causes a redirect loop against GitHub Pages.
 
 ## 5. Update the absolute URLs
 
-In `index.html`, change these three to the live domain:
+These three lines in `index.html` currently point at the github.io host and are
+the only places the hostname is hardcoded anywhere in the site:
 
 - `<link rel="canonical" href="..." />`
 - `<meta property="og:url" content="..." />`
 - `<meta property="og:image" content="..." />`
 
-The og:image must stay a full absolute URL ending in `/assets/img/og-cover.jpg`.
-Commit and push. Then paste the domain into
+They become `https://dankstreetmusic.com/` and
+`https://dankstreetmusic.com/assets/img/og-cover.jpg`. They must stay absolute
+because social scrapers do not run JS and do not resolve relative URLs.
+
+Leave them on github.io until the domain actually resolves — pointing `og:image`
+at a dead host breaks link previews in the meantime.
+
+Commit and push, then paste the domain into
 https://developers.facebook.com/tools/debug/ and hit **Scrape Again** so the
 link preview refreshes instead of serving a cached miss.
 
