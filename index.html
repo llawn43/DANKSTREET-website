@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>DANK STREET</title>
+    <meta name="description" content="DANK STREET — Philly / NYC DJ & producer. House · garage · trap. Music, tour dates, and bookings." />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="DANK STREET" />
+    <meta property="og:description" content="Philly / NYC DJ & producer. House · garage · trap." />
+    <meta property="og:image" content="assets/img/og-cover.jpg" />
+    <meta name="theme-color" content="#05060a" />
+
+    <link rel="icon" href="assets/img/favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Ambient gradient wash -->
+    <div class="bg-aura" aria-hidden="true"></div>
+
+    <!-- Fixed glass pill nav -->
+    <nav class="site-nav" aria-label="Site">
+      <a class="nav-link" data-nav href="#home">Home</a>
+      <a class="nav-link" data-nav href="#music">Music</a>
+      <a class="nav-link" data-nav href="#tour">Tour</a>
+      <a class="nav-link" data-nav href="#socials">Socials</a>
+      <a class="nav-link" data-nav href="#signup">Signup</a>
+      <a class="nav-link" data-nav href="#contact">Contact</a>
+    </nav>
+
+    <!-- Immersive hero: photo wash + slab + white logo wordmark -->
+    <header class="hero" id="hero">
+      <div class="hero-bg" id="heroBg" aria-hidden="true"></div>
+      <div class="hero-overlay" aria-hidden="true"></div>
+      <canvas id="slab" class="slab" aria-label="Interactive 3D DANK STREET icon — drag to spin"></canvas>
+      <h1 class="hero-brand">
+        <img
+          class="hero-logo"
+          id="heroLogo"
+          src="assets/img/logo-hero.png"
+          alt="DANK STREET"
+        />
+      </h1>
+      <p class="hero-tag">house &middot; garage &middot; trap</p>
+      <p class="hero-hint">drag the emblem &middot; tap sound on</p>
+    </header>
+
+    <!-- Routed content mounts here -->
+    <main id="root" class="view" aria-live="polite"></main>
+
+    <!-- Audio controls -->
+    <button id="audioToggle" class="audio-toggle" type="button" aria-pressed="false" title="Play Dank Street release previews">
+      <span class="audio-icon" aria-hidden="true"></span>
+      <span class="audio-label">SOUND OFF</span>
+    </button>
+
+    <audio id="bgAudio" preload="none"></audio>
+    <audio id="sfxHover" preload="none"></audio>
+    <audio id="sfxClick" preload="none"></audio>
+
+    <footer class="site-credit">
+      <span data-year></span> DANK STREET &middot; all rights reserved
+    </footer>
+
+    <script src="content.js"></script>
+    <script src="js/scramble.js" defer></script>
+    <script src="js/slab.js" defer></script>
+    <script src="js/audio.js" defer></script>
+    <script src="js/hero.js" defer></script>
+    <script src="js/router.js" defer></script>
+  </body>
+</html>

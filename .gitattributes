@@ -1,0 +1,12 @@
+* text=auto
+
+# Launchers must keep native endings or they fail to run after a clone.
+*.command text eol=lf
+*.sh text eol=lf
+*.bat text eol=crlf
+
+*.png binary
+*.jpg binary
+*.mp3 binary
+*.mp4 binary
+*.pdf binary
