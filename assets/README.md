@@ -22,6 +22,7 @@ Populated from:
 | `photos/live-01-headshot.jpg` | Contact headshot |
 | `photos/live-02` … `live-06` | Hero photo wash (Otherworld, Barbary, EPK shot, press) |
 | `photos/poster-01.jpg` … `poster-04.jpg` | Stills from Barbary media-kit video |
+| `social/*.svg` | Socials section brand marks (Simple Icons, 24×24 single-path) |
 
 ## Audio (`audio/`)
 
@@ -44,3 +45,6 @@ Originals stay in `0_Input/ArtistMarketing/DANK STREET/`.
 2. New releases: add a Spotify album ID + cover under `covers/`, then add a `tracks[]` entry; refresh `audio/previews/` + `audio.playlist` if a 30s preview exists.
 3. New brand kit: re-optimize logos/photos/EPK with Pillow into `img/` (logos ≤~900px wide; photos ≤~1600px JPEG q82).
 4. Re-extract posters with ffmpeg from the media kit when needed.
+5. New social platform: drop a single-path SVG in `img/social/` and add an `icon`
+   path to that `socials[]` entry. The mark is painted via CSS `mask`, so its own
+   fill colour is ignored — it always inherits the pill's text colour.

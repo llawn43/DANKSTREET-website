@@ -1,7 +1,7 @@
 # DANK STREET — official site
 
 A self-contained, dependency-free static website for the artist **DANK STREET**
-(Philly / NYC — house · garage · trap). Styled after the immersive moodygood.com
+(Philly / NYC — bass · house · garage · trap). Styled after the immersive moodygood.com
 aesthetic with a **blues / black / purples / whites** palette.
 
 **Live content sources:** tour Excel + Linktree + Spotify + 2026 media kit videos
@@ -17,7 +17,7 @@ dank-street-site/
 ├── styles.css        # theme tokens + layout + glassmorphism + responsive
 ├── content.js        # << EDIT THIS: all site content + asset paths
 ├── js/
-│   ├── router.js     # hash routing + renders sections + signup form
+│   ├── router.js     # hash routing + renders sections + merch list form
 │   ├── slab.js       # interactive drag-to-spin hero centerpiece
 │   ├── scramble.js   # text scramble/glitch effect
 │   └── audio.js      # ambient loop + UI SFX + sound toggle
@@ -34,8 +34,8 @@ Everything the site shows comes from **`content.js`** (`window.DANK_STREET`):
 - **Identity** — `name`, `tagline`, `bio`
 - **Music** — `tracks[]` (title, year, `cover`, `links[]`, optional `embed` iframe)
 - **Tour** — `tour[]` (date, city, venue, `tickets` URL)
-- **Socials** — `socials[]` (label + url)
-- **Signup** — `signup.endpoint` (Mailchimp/Formspree POST URL; empty = mailto fallback)
+- **Socials** — `socials[]` (label + url + `icon` path to a mark in `assets/img/social/`)
+- **Merch** — `merch.status` / `blurb` / `cta`, plus `merch.endpoint` (Mailchimp/Formspree POST URL; empty = mailto fallback)
 - **Contact** — `contact.email` + `contact.lines[]`
 - **Audio** — `audio.ambient`, optional `audio.hover` / `audio.click`
 
@@ -58,8 +58,8 @@ python -m http.server 8080
 - **Scramble** text reveal on the title and every section heading.
 - **Glass pill navigation** with active-route highlight (blue -> purple gradient).
 - **Ambient audio** toggle (autoplay-safe; remembers preference) + optional UI hover/click SFX.
-- Hash-routed sections: **Home / Music / Tour / Socials / Signup / Contact**.
-- Functional **signup form** with validation, endpoint POST, and mailto fallback.
+- Hash-routed sections: **Home / Music / Tour / Socials / Merch / Contact** (legacy `#signup` redirects to `#merch`).
+- Coming-soon **Merch** page with a drop-notification email form: validation, endpoint POST, and mailto fallback.
 - Responsive + `prefers-reduced-motion` friendly.
 
 ## Deploy

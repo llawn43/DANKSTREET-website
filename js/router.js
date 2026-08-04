@@ -1,6 +1,6 @@
 /* =========================================================================
    router.js — hash routing + section rendering from content.js
-   Routes: #home #music #tour #socials #signup #contact
+   Routes: #home #music #tour #socials #merch #contact
    ========================================================================= */
 (function () {
   "use strict";
@@ -108,7 +108,15 @@
     });
     var links = socials
       .map(function (s) {
-        return '<a class="btn" href="' + attr(s.url) + '" target="_blank" rel="noopener">' + esc(s.label) + "</a>";
+        var icon = s.icon
+          ? '<span class="social-icon" style="--icon:url(&quot;' + attr(s.icon) + '&quot;)" aria-hidden="true"></span>'
+          : "";
+        return (
+          '<a class="btn" href="' + attr(s.url) + '" target="_blank" rel="noopener">' +
+          icon +
+          esc(s.label) +
+          "</a>"
+        );
       })
       .join("");
     return (
@@ -121,17 +129,21 @@
     );
   }
 
-  function renderSignup() {
-    var s = data.signup || {};
+  function renderMerch() {
+    var m = data.merch || {};
+    var badge = m.status
+      ? '<div class="coming-soon">' + esc(m.status) + "</div>"
+      : "";
     return (
       '<section class="section">' +
-      sectionHead("04", "Signup") +
-      "<p class=\"lead\">" + esc(s.blurb || "") + "</p>" +
-      '<form class="form" id="signupForm" novalidate>' +
-      '<div class="field"><label for="su-email">Email</label>' +
-      '<input id="su-email" name="email" type="email" placeholder="you@email.com" autocomplete="email" required /></div>' +
-      '<button class="btn primary" type="submit">Subscribe</button>' +
-      '<p class="form-note" id="signupNote" role="status"></p>' +
+      sectionHead("04", "Merch") +
+      badge +
+      "<p class=\"lead\">" + esc(m.blurb || "") + "</p>" +
+      '<form class="form" id="merchForm" novalidate>' +
+      '<div class="field"><label for="mc-email">Email</label>' +
+      '<input id="mc-email" name="email" type="email" placeholder="you@email.com" autocomplete="email" required /></div>' +
+      '<button class="btn primary" type="submit">' + esc(m.cta || "Notify me") + "</button>" +
+      '<p class="form-note" id="merchNote" role="status"></p>' +
       "</form>" +
       "</section>"
     );
@@ -179,12 +191,16 @@
     music: renderMusic,
     tour: renderTour,
     socials: renderSocials,
-    signup: renderSignup,
+    merch: renderMerch,
     contact: renderContact,
   };
 
+  // Retired hashes that should still resolve for old links and bookmarks.
+  var ALIASES = { signup: "merch" };
+
   function currentRoute() {
     var h = (location.hash || "#home").replace("#", "").trim();
+    if (ALIASES[h]) h = ALIASES[h];
     return ROUTES.hasOwnProperty(h) ? h : "home";
   }
 
@@ -206,16 +222,16 @@
     } else {
       root.innerHTML = ROUTES[route]();
       if (window.Scramble) window.Scramble.autoInit(root);
-      if (route === "signup") wireSignup();
+      if (route === "merch") wireMerch();
       // Scroll content into view below the hero.
       root.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   }
 
-  // --- Signup form handling (validation + endpoint / mailto fallback) ---
-  function wireSignup() {
-    var form = document.getElementById("signupForm");
-    var note = document.getElementById("signupNote");
+  // --- Merch list form handling (validation + endpoint / mailto fallback) ---
+  function wireMerch() {
+    var form = document.getElementById("merchForm");
+    var note = document.getElementById("merchNote");
     if (!form) return;
 
     form.addEventListener("submit", function (e) {
@@ -233,7 +249,7 @@
         return;
       }
 
-      var endpoint = (data.signup && data.signup.endpoint) || "";
+      var endpoint = (data.merch && data.merch.endpoint) || "";
       if (window.DankAudio) window.DankAudio.sfx("click");
 
       if (!endpoint) {
@@ -241,8 +257,8 @@
         var to = (data.contact && data.contact.email) || "";
         note.classList.add("ok");
         note.textContent = "Opening your email app...";
-        var subject = encodeURIComponent("Add me to the DANK STREET list");
-        var body = encodeURIComponent("Sign me up: " + email);
+        var subject = encodeURIComponent("Add me to the DANK STREET merch list");
+        var body = encodeURIComponent("Notify me about merch drops: " + email);
         window.location.href = "mailto:" + to + "?subject=" + subject + "&body=" + body;
         return;
       }
@@ -260,7 +276,7 @@
         .then(function (res) {
           if (!res.ok) throw new Error("bad status");
           note.className = "form-note ok";
-          note.textContent = "You're on the list. Welcome to the street.";
+          note.textContent = "You're on the list. We'll hit you when the first drop lands.";
           form.reset();
         })
         .catch(function () {

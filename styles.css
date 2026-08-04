@@ -277,7 +277,7 @@ body.route-active .hero {
    Routed views
    ========================================================= */
 .view {
-  max-width: 1040px;
+  max-width: 1280px;
   margin: 0 auto;
   padding: 0 max(20px, env(safe-area-inset-right, 0px)) 120px
     max(20px, env(safe-area-inset-left, 0px));
@@ -340,7 +340,7 @@ body.route-active .hero {
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
 }
 .grid.cols-3 {
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
 }
 
 .card {
@@ -441,6 +441,17 @@ body.route-active .hero {
   gap: 12px;
 }
 
+/* Brand mark drawn as a mask so it inherits the pill's text colour and
+   inverts along with it on hover. */
+.social-icon {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  background: currentColor;
+  -webkit-mask: var(--icon) center / contain no-repeat;
+  mask: var(--icon) center / contain no-repeat;
+}
+
 /* Buttons / pills */
 .btn {
   display: inline-flex;
@@ -478,6 +489,20 @@ body.route-active .hero {
 .btn.sm {
   padding: 7px 13px;
   font-size: 11px;
+}
+
+/* Coming-soon badge */
+.coming-soon {
+  display: inline-block;
+  margin: 0 0 18px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(168, 85, 247, 0.45);
+  background: rgba(124, 58, 237, 0.14);
+  color: var(--purple-bright);
+  font-size: 11px;
+  letter-spacing: var(--track);
+  text-transform: uppercase;
 }
 
 /* Forms */

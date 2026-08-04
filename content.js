@@ -11,9 +11,9 @@
 window.DANK_STREET = {
   /* --- Identity ------------------------------------------------------- */
   name: "DANK STREET",
-  tagline: "house \u00b7 garage \u00b7 trap",
+  tagline: "bass \u00b7 house \u00b7 garage \u00b7 trap",
   bio:
-    "Philly / NYC based DJ and producer. House, garage, and trap for dark rooms and late nights. " +
+    "Philly / NYC based DJ and producer. Bass, house, garage, and trap for dark rooms and late nights. " +
     "Releases with No Hype Music and Deep Legends. Bookings & promo: dankstreets@gmail.com",
 
   logo: "assets/img/logo-hero.png",
@@ -156,17 +156,41 @@ window.DANK_STREET = {
 
   /* --- Socials -------------------------------------------------------- */
   socials: [
-    { label: "Instagram", url: "https://instagram.com/dankstreetmusic" },
-    { label: "Linktree", url: "https://linktr.ee/dankstreetmusic" },
-    { label: "Spotify", url: "https://open.spotify.com/artist/0NLNgYQ7nC55xyR1yK0ELY" },
-    { label: "SoundCloud", url: "https://soundcloud.com/dankstreet" },
-    { label: "Apple Music", url: "https://music.apple.com/us/artist/dank-street/1811364253" },
+    {
+      label: "Instagram",
+      url: "https://instagram.com/dankstreetmusic",
+      icon: "assets/img/social/instagram.svg",
+    },
+    {
+      label: "Linktree",
+      url: "https://linktr.ee/dankstreetmusic",
+      icon: "assets/img/social/linktree.svg",
+    },
+    {
+      label: "Spotify",
+      url: "https://open.spotify.com/artist/0NLNgYQ7nC55xyR1yK0ELY",
+      icon: "assets/img/social/spotify.svg",
+    },
+    {
+      label: "SoundCloud",
+      url: "https://soundcloud.com/dankstreet",
+      icon: "assets/img/social/soundcloud.svg",
+    },
+    {
+      label: "Apple Music",
+      url: "https://music.apple.com/us/artist/dank-street/1811364253",
+      icon: "assets/img/social/applemusic.svg",
+    },
   ],
 
-  /* --- Signup --------------------------------------------------------- */
-  signup: {
-    heading: "Join the list",
-    blurb: "New drops, Philly/NYC dates, and unfiltered heat. Straight to your inbox.",
+  /* --- Merch (coming soon; email capture for drop announcements) ------- */
+  merch: {
+    heading: "Merch",
+    status: "Coming soon",
+    blurb:
+      "Tees, hoodies, and limited-run pieces are in the works. Drop your email and you'll hear " +
+      "about every drop first, with early access before it goes public.",
+    cta: "Notify me",
     endpoint: "",
   },
 

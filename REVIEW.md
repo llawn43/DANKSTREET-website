@@ -44,8 +44,8 @@ Resize the browser or open the same URL on your phone (same Wi‑Fi / localhost 
 | **Home** | White DANK STREET wordmark, 3D DS emblem (drag to spin), photo wash, Sound toggle (cycles 30s release previews) |
 | **Music** | Releases + Spotify embeds |
 | **Tour** | Dates / cities / venues + ticket links |
-| **Socials** | Instagram, Linktree, Spotify, SoundCloud, Apple Music |
-| **Signup** | Form (mailto fallback until a list endpoint is set) |
+| **Socials** | Instagram, Linktree, Spotify, SoundCloud, Apple Music — each with its brand logo |
+| **Merch** | "Coming soon" badge + email capture for drop announcements (mailto fallback until a list endpoint is set) |
 | **Contact** | Headshot, `dankstreets@gmail.com`, **Download EPK** |
 
 Extras in this folder: `DANK_STREET_Website_Launch_Plan.pdf`, `dank-street-promo-15s.mp4`.
