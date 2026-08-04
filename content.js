@@ -108,7 +108,8 @@ window.DANK_STREET = {
     },
   ],
 
-  /* --- Tour (from DANK STREET_Tour_Info.xlsx + Linktree tickets) ------ */
+  /* --- Tour (from DANK STREET AUGSEPT CALENDAR.JPG "End of Summer Run"
+     + DANK STREET_Tour_Info.xlsx + Linktree tickets) ------------------- */
   tour: [
     {
       date: "AUG 07",
@@ -129,28 +130,34 @@ window.DANK_STREET = {
       tickets: "",
     },
     {
-      date: "AUG 23",
-      city: "Liberty Point",
-      venue: "Eyezic — Direct Support",
-      tickets: "https://posh.vip/e/eyezic",
-    },
-    {
       date: "AUG 29",
       city: "The Ave Live",
       venue: "Shipwrek",
       tickets: "",
     },
     {
-      date: "SEP 05",
-      city: "Orlando, FL",
-      venue: "Urban Air — Wonky Willa x smith x sloth",
+      date: "AUG 30",
+      city: "Liberty Point",
+      venue: "Day Fest — Sound Selectas Takeover",
       tickets: "",
     },
     {
-      date: "SEP 12",
+      date: "SEP 05",
+      city: "Orlando, FL",
+      venue: "Urban Air — Wonky Willa / Smith",
+      tickets: "",
+    },
+    {
+      date: "SEP 11",
       city: "Philadelphia, PA",
       venue: "Breakaway Philly — Silent Disco",
       tickets: "https://www.universe.com/events/breakaway-philadelphia-2026-tickets-WT3N6X?ref=dank",
+    },
+    {
+      date: "SEP 19",
+      city: "New York, NY",
+      venue: "Haus on Hudson — Sunset Boat Party",
+      tickets: "",
     },
   ],
 
