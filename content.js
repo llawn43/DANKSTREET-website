@@ -11,9 +11,9 @@
 window.DANK_STREET = {
   /* --- Identity ------------------------------------------------------- */
   name: "DANK STREET",
-  tagline: "bass \u00b7 house \u00b7 garage \u00b7 trap",
+  tagline: "bass \u00b7 house \u00b7 garage",
   bio:
-    "Philly / NYC based DJ and producer. Bass, house, garage, and trap for dark rooms and late nights. " +
+    "Philly / NYC based DJ and producer. Bass, house, and garage for dark rooms and late nights. " +
     "Releases with No Hype Music and Deep Legends. Bookings & promo: dankstreets@gmail.com",
 
   logo: "assets/img/logo-hero.png",

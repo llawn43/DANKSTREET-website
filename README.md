@@ -1,7 +1,7 @@
 # DANK STREET — official site
 
 A self-contained, dependency-free static website for the artist **DANK STREET**
-(Philly / NYC — bass · house · garage · trap). Styled after the immersive moodygood.com
+(Philly / NYC — bass · house · garage). Styled after the immersive moodygood.com
 aesthetic with a **blues / black / purples / whites** palette.
 
 **Live content sources:** tour Excel + Linktree + Spotify + 2026 media kit videos
