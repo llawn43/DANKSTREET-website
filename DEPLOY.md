@@ -11,18 +11,19 @@ Repo: https://github.com/llawn43/DANKSTREET-website (branch `main`)
 - `.nojekyll` so GitHub serves the files as-is instead of running them through Jekyll.
 - All asset paths are relative, so the site works both at a `/DANKSTREET-website/`
   subpath and later at a domain root without any changes.
-- `canonical`, `og:url`, and `og:image` are absolute (scrapers can't resolve
-  relative URLs). They currently point at the github.io address — step 5 below
-  swaps them to the real domain.
+- `canonical`, `og:url`, and `og:image` are absolute and point at
+  `https://dankstreetmusic.com/`.
+- Custom domain `dankstreetmusic.com` is attached via the root `CNAME` file
+  (DNS at GoDaddy points apex A records + `www` CNAME at GitHub Pages).
 
 ## 1. Turn on GitHub Pages — DONE
 
-Pages is enabled from branch `main`, folder `/ (root)`, and the site is live at:
+Pages is enabled from branch `main`, folder `/ (root)`.
 
-https://llawn43.github.io/DANKSTREET-website/
+- Custom domain: https://dankstreetmusic.com/
+- Fallback / redirect source: https://llawn43.github.io/DANKSTREET-website/
 
-It is served by GitHub and no longer depends on your machine. Everything below is
-only needed for the custom domain.
+It is served by GitHub and no longer depends on your machine.
 
 (For reference, the setting lives at repo **Settings** to **Pages** to **Build and
 deployment**. The repo must stay public for Pages on a free account.)
