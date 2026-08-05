@@ -4,8 +4,11 @@ Populated from:
 - `0_Input/ArtistMarketing/DANK STREET/DANK STREET_Tour_Info.xlsx` (tour)
 - https://linktr.ee/dankstreetmusic (socials + ticket links)
 - Spotify / iTunes (release covers + Sound toggle 30s previews)
-- `DANK MEDIA KIT 2026/` — logos, EPK, LIVE PHOTOS, PRESS SHOTS, VIDEO
-- Barbary video stills for posters
+- **`DANK MEDIA KIT 2026/LIVE PHOTOS`** — sole source for hero + contact photos going forward
+- `DANK MEDIA KIT 2026/` — logos, EPK, VIDEO (posters)
+
+Photo rebuild script: `../scripts/build_hero_from_live_photos.py`  
+Pipeline notes: `../docs/PHOTO-PIPELINE.md`
 
 ## Images (`img/`)
 
@@ -19,9 +22,7 @@ Populated from:
 | `og-cover.jpg` | Social share preview (1200×630 from press shot) |
 | `epk.jpg` | Contact “Download EPK” (`Dank Street EPK (2).png`, compressed) |
 | `covers/*.jpg` | Music section release art (800×800) |
-| `photos/live-01-headshot.jpg` | Contact headshot |
-| `photos/live-02` … `live-06` | Hero photo wash (Otherworld, Barbary, EPK shot, press) |
-| `photos/live-07-pro-pic.jpg` | Hero photo wash (`PRESS SHOTS/PRO PIC.png`, 1004×1528 native) |
+| `photos/live-*.jpg` | Hero wash + contact headshot from LIVE PHOTOS (long edge ~2880, q85) |
 | `photos/poster-01.jpg` … `poster-04.jpg` | Stills from Barbary media-kit video |
 | `social/*.svg` | Socials section brand marks (Simple Icons, 24×24 single-path) |
 
@@ -44,7 +45,7 @@ Originals stay in `0_Input/ArtistMarketing/DANK STREET/`.
 
 1. Update tour dates in the Excel file, then edit `../content.js` `tour[]`.
 2. New releases: add a Spotify album ID + cover under `covers/`, then add a `tracks[]` entry; refresh `audio/previews/` + `audio.playlist` if a 30s preview exists.
-3. New brand kit: re-optimize logos/photos/EPK with Pillow into `img/` (logos ≤~900px wide; photos ≤~1600px JPEG q82).
+3. New live photos: drop into `LIVE PHOTOS`, update `scripts/build_hero_from_live_photos.py`, re-run it (exports ~2880px long-edge, not 1600px).
 4. Re-extract posters with ffmpeg from the media kit when needed.
 5. New social platform: drop a single-path SVG in `img/social/` and add an `icon`
    path to that `socials[]` entry. The mark is painted via CSS `mask`, so its own

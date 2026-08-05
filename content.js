@@ -5,7 +5,7 @@
    - 0_Input/ArtistMarketing/DANK STREET/DANK STREET_Tour_Info.xlsx
    - https://linktr.ee/dankstreetmusic
    - Spotify artist 0NLNgYQ7nC55xyR1yK0ELY
-   - DANK MEDIA KIT 2026 videos (posters)
+   - DANK MEDIA KIT 2026/LIVE PHOTOS (hero + contact — rebuild via scripts/build_hero_from_live_photos.py)
    - Apple Music / iTunes 30s previews for Sound toggle playlist
    ========================================================================= */
 window.DANK_STREET = {
@@ -19,13 +19,17 @@ window.DANK_STREET = {
   logo: "assets/img/logo-hero.png",
   headshot: "assets/img/photos/live-01-headshot.jpg",
   epk: "assets/img/epk.jpg",
+  /* Landscapes first so background-size:cover fills wide desktops without bars.
+     Portrait frames still use cover (crop sides on desktop / top-bottom on mobile). */
   heroPhotos: [
     "assets/img/photos/live-02-otherworld.jpg",
-    "assets/img/photos/live-03-barbary.jpg",
-    "assets/img/photos/live-07-pro-pic.jpg",
-    "assets/img/photos/live-05-press.jpg",
     "assets/img/photos/live-06-otherworld-2.jpg",
-    "assets/img/photos/live-04-epk-shot.jpg",
+    "assets/img/photos/live-05-press.jpg",
+    "assets/img/photos/live-03-barbary.jpg",
+    "assets/img/photos/live-08-otherworld-20.jpg",
+    "assets/img/photos/live-09-barbary-wide.jpg",
+    "assets/img/photos/live-01-headshot.jpg",
+    "assets/img/photos/live-10-dank-street-portrait.jpg",
   ],
 
   /* --- Hero emblem (3D icon logo) ------------------------------------- */

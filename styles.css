@@ -177,9 +177,12 @@ body.route-active .hero {
 
 .hero-bg-slide {
   position: absolute;
-  inset: -4%;
+  /* Slight overscan so ken-burns scale never reveals edges. */
+  inset: -6%;
+  /* cover = fill the hero with zero letterboxing; crops overflow only. */
   background-size: cover;
-  background-position: center;
+  background-position: center center;
+  background-repeat: no-repeat;
   opacity: 0;
   transform: scale(1.04);
   transition: opacity 1.4s var(--ease), transform 9s linear;
