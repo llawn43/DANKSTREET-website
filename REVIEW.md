@@ -45,7 +45,7 @@ Resize the browser or open the same URL on your phone (same Wi‑Fi / localhost 
 | **Music** | Releases + Spotify embeds |
 | **Tour** | Dates / cities / venues + ticket links |
 | **Socials** | Instagram, Linktree, Spotify, SoundCloud, Apple Music — each with its brand logo |
-| **Merch** | "Coming soon" badge + email capture for drop announcements (mailto fallback until a list endpoint is set) |
+| **Merch** | "Coming soon" badge + CTA to Feature.fm subscribe (`ffm.bio/dankstreetmusic`) |
 | **Contact** | Headshot, `dankstreets@gmail.com`, **Download EPK** |
 
 Extras in this folder: `DANK_STREET_Website_Launch_Plan.pdf`, `dank-street-promo-15s.mp4`.

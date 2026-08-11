@@ -1,6 +1,7 @@
 /* =========================================================================
    router.js — hash routing + section rendering from content.js
    Routes: #home #music #tour #socials #merch #contact
+   Merch CTA opens merch.subscribeUrl (Feature.fm).
    ========================================================================= */
 (function () {
   "use strict";
@@ -134,17 +135,20 @@
     var badge = m.status
       ? '<div class="coming-soon">' + esc(m.status) + "</div>"
       : "";
+    var url = m.subscribeUrl || "";
+    var cta = url
+      ? '<p class="contact-actions"><a class="btn primary" href="' +
+        attr(url) +
+        '" target="_blank" rel="noopener">' +
+        esc(m.cta || "Join the list") +
+        "</a></p>"
+      : "";
     return (
       '<section class="section">' +
       sectionHead("04", "Merch") +
       badge +
       "<p class=\"lead\">" + esc(m.blurb || "") + "</p>" +
-      '<form class="form" id="merchForm" novalidate>' +
-      '<div class="field"><label for="mc-email">Email</label>' +
-      '<input id="mc-email" name="email" type="email" placeholder="you@email.com" autocomplete="email" required /></div>' +
-      '<button class="btn primary" type="submit">' + esc(m.cta || "Notify me") + "</button>" +
-      '<p class="form-note" id="merchNote" role="status"></p>' +
-      "</form>" +
+      cta +
       "</section>"
     );
   }
@@ -222,71 +226,9 @@
     } else {
       root.innerHTML = ROUTES[route]();
       if (window.Scramble) window.Scramble.autoInit(root);
-      if (route === "merch") wireMerch();
       // Scroll content into view below the hero.
       root.scrollIntoView({ behavior: "smooth", block: "start" });
     }
-  }
-
-  // --- Merch list form handling (validation + endpoint / mailto fallback) ---
-  function wireMerch() {
-    var form = document.getElementById("merchForm");
-    var note = document.getElementById("merchNote");
-    if (!form) return;
-
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      note.className = "form-note";
-      note.textContent = "";
-
-      var input = form.querySelector('input[name="email"]');
-      var email = (input.value || "").trim();
-      var valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-      if (!valid) {
-        note.classList.add("err");
-        note.textContent = "Please enter a valid email address.";
-        input.focus();
-        return;
-      }
-
-      var endpoint = (data.merch && data.merch.endpoint) || "";
-      if (window.DankAudio) window.DankAudio.sfx("click");
-
-      if (!endpoint) {
-        // Fallback: open a pre-filled mailto to the booking/contact address.
-        var to = (data.contact && data.contact.email) || "";
-        note.classList.add("ok");
-        note.textContent = "Opening your email app...";
-        var subject = encodeURIComponent("Add me to the DANK STREET merch list");
-        var body = encodeURIComponent("Notify me about merch drops: " + email);
-        window.location.href = "mailto:" + to + "?subject=" + subject + "&body=" + body;
-        return;
-      }
-
-      var btn = form.querySelector('button[type="submit"]');
-      btn.disabled = true;
-      note.classList.add("ok");
-      note.textContent = "Submitting...";
-
-      fetch(endpoint, {
-        method: "POST",
-        headers: { Accept: "application/json", "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email }),
-      })
-        .then(function (res) {
-          if (!res.ok) throw new Error("bad status");
-          note.className = "form-note ok";
-          note.textContent = "You're on the list. We'll hit you when the first drop lands.";
-          form.reset();
-        })
-        .catch(function () {
-          note.className = "form-note err";
-          note.textContent = "Something went wrong. Try again later.";
-        })
-        .finally(function () {
-          btn.disabled = false;
-        });
-    });
   }
 
   window.addEventListener("hashchange", render);

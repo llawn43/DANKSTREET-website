@@ -17,7 +17,7 @@ dank-street-site/
 ├── styles.css        # theme tokens + layout + glassmorphism + responsive
 ├── content.js        # << EDIT THIS: all site content + asset paths
 ├── js/
-│   ├── router.js     # hash routing + renders sections + merch list form
+│   ├── router.js     # hash routing + renders sections
 │   ├── slab.js       # interactive drag-to-spin hero centerpiece
 │   ├── scramble.js   # text scramble/glitch effect
 │   └── audio.js      # ambient loop + UI SFX + sound toggle
@@ -35,7 +35,7 @@ Everything the site shows comes from **`content.js`** (`window.DANK_STREET`):
 - **Music** — `tracks[]` (title, year, `cover`, `links[]`, optional `embed` iframe)
 - **Tour** — `tour[]` (date, city, venue, `tickets` URL)
 - **Socials** — `socials[]` (label + url + `icon` path to a mark in `assets/img/social/`)
-- **Merch** — `merch.status` / `blurb` / `cta`, plus `merch.endpoint` (Mailchimp/Formspree POST URL; empty = mailto fallback)
+- **Merch** — `merch.status` / `blurb` / `cta`, plus `merch.subscribeUrl` (Feature.fm / audience link)
 - **Contact** — `contact.email` + `contact.lines[]`
 - **Audio** — `audio.ambient`, optional `audio.hover` / `audio.click`
 
@@ -59,7 +59,7 @@ python -m http.server 8080
 - **Glass pill navigation** with active-route highlight (blue -> purple gradient).
 - **Ambient audio** toggle (autoplay-safe; remembers preference) + optional UI hover/click SFX.
 - Hash-routed sections: **Home / Music / Tour / Socials / Merch / Contact** (legacy `#signup` redirects to `#merch`).
-- Coming-soon **Merch** page with a drop-notification email form: validation, endpoint POST, and mailto fallback.
+- Coming-soon **Merch** page with a CTA to the Feature.fm subscribe page (`merch.subscribeUrl`).
 - Responsive + `prefers-reduced-motion` friendly.
 
 ## Deploy

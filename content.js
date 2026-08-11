@@ -195,15 +195,15 @@ window.DANK_STREET = {
     },
   ],
 
-  /* --- Merch (coming soon; email capture for drop announcements) ------- */
+  /* --- Merch (coming soon; Feature.fm list for drop announcements) ----- */
   merch: {
     heading: "Merch",
     status: "Coming soon",
     blurb:
-      "Tees, hoodies, and limited-run pieces are in the works. Drop your email and you'll hear " +
-      "about every drop first, with early access before it goes public.",
-    cta: "Notify me",
-    endpoint: "",
+      "Tees, hoodies, and limited-run pieces are in the works. Join the DANK STREET list on " +
+      "Feature.fm and you'll hear about every drop first, with early access before it goes public.",
+    cta: "Join the list",
+    subscribeUrl: "https://ffm.bio/dankstreetmusic",
   },
 
   /* --- Contact -------------------------------------------------------- */

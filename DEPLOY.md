@@ -148,11 +148,8 @@ git push
 Pages rebuilds within about a minute. There is no build step, so what you push is
 exactly what ships. Hard-refresh (Ctrl+F5) if you don't see a CSS change.
 
-## Known limitation to decide on
+## Merch list
 
-The Merch email form has no backend. With `merch.endpoint` empty in `content.js`
-it opens the visitor's mail app pre-addressed to `dankstreets@gmail.com`, which
-works but loses anyone without a configured mail client. Before pushing merch
-hard, sign up for Formspree, Mailchimp, or Buttondown and paste the POST URL into
-`merch.endpoint` — the form already handles the real submit path, so that one
-value is the whole change.
+Merch → **Join the list** opens Feature.fm at `merch.subscribeUrl` in `content.js`
+(currently `https://ffm.bio/dankstreetmusic`). Bookings still use Contact mailto
+(`dankstreets@gmail.com`). To swap lists later, change only `subscribeUrl`.
