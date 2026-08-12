@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>DANK STREET</title>
-    <meta name="description" content="DANK STREET — Philly / NYC DJ & producer. Bass · house · garage. Music, tour dates, and bookings." />
+    <meta
+      name="description"
+      content="DANK STREET - Philly / NYC DJ and producer. Bass, house, garage. Music, tour dates, and bookings."
+    />
 
     <!-- Social scrapers do not run JS and do not reliably resolve relative
          URLs, so these four must stay absolute. Update all of them together
@@ -12,7 +15,10 @@
     <link rel="canonical" href="https://dankstreetmusic.com/" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="DANK STREET" />
-    <meta property="og:description" content="Philly / NYC DJ & producer. Bass · house · garage." />
+    <meta
+      property="og:description"
+      content="Philly / NYC DJ and producer. Bass, house, garage."
+    />
     <meta property="og:url" content="https://dankstreetmusic.com/" />
     <meta property="og:image" content="https://dankstreetmusic.com/assets/img/og-cover.jpg" />
     <meta name="twitter:card" content="summary_large_image" />
@@ -26,6 +32,29 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "MusicGroup",
+        "name": "DANK STREET",
+        "url": "https://dankstreetmusic.com/",
+        "genre": ["Bass House", "House", "UK Garage", "Bass"],
+        "email": "dankstreets@gmail.com",
+        "sameAs": [
+          "https://instagram.com/dankstreetmusic",
+          "https://soundcloud.com/dankstreet",
+          "https://open.spotify.com/artist/0NLNgYQ7nC55xyR1yK0ELY",
+          "https://music.apple.com/us/artist/dank-street/1811364253",
+          "https://www.beatport.com/artist/dank-street/1310487",
+          "https://linktr.ee/dankstreetmusic"
+        ],
+        "memberOf": {
+          "@type": "Organization",
+          "name": "Sound Selectas"
+        }
+      }
+    </script>
   </head>
   <body>
     <!-- Ambient gradient wash -->
@@ -36,6 +65,7 @@
       <a class="nav-link" data-nav href="#home">Home</a>
       <a class="nav-link" data-nav href="#music">Music</a>
       <a class="nav-link" data-nav href="#tour">Tour</a>
+      <a class="nav-link" data-nav href="#media">Media</a>
       <a class="nav-link" data-nav href="#socials">Socials</a>
       <a class="nav-link" data-nav href="#merch">Merch</a>
       <a class="nav-link" data-nav href="#contact">Contact</a>
@@ -45,24 +75,37 @@
     <header class="hero" id="hero">
       <div class="hero-bg" id="heroBg" aria-hidden="true"></div>
       <div class="hero-overlay" aria-hidden="true"></div>
-      <canvas id="slab" class="slab" aria-label="Interactive 3D DANK STREET icon — drag to spin"></canvas>
+      <canvas id="slab" class="slab" aria-label="Interactive 3D DANK STREET icon - drag to spin"></canvas>
       <h1 class="hero-brand">
         <img
           class="hero-logo"
           id="heroLogo"
           src="assets/img/logo-hero.png"
           alt="DANK STREET"
+          width="840"
+          height="280"
         />
       </h1>
       <p class="hero-tag">bass &middot; house &middot; garage</p>
       <p class="hero-hint">drag the emblem &middot; tap sound on</p>
+      <div class="hero-cta" role="group" aria-label="Quick links">
+        <a class="btn primary" href="#music">Music</a>
+        <a class="btn" href="#tour">Tour</a>
+        <a class="btn" href="#contact">Book</a>
+      </div>
     </header>
 
     <!-- Routed content mounts here -->
     <main id="root" class="view" aria-live="polite"></main>
 
     <!-- Audio controls -->
-    <button id="audioToggle" class="audio-toggle" type="button" aria-pressed="false" title="Play Dank Street release previews">
+    <button
+      id="audioToggle"
+      class="audio-toggle"
+      type="button"
+      aria-pressed="false"
+      title="Play Dank Street release previews"
+    >
       <span class="audio-icon" aria-hidden="true"></span>
       <span class="audio-label">SOUND OFF</span>
     </button>
@@ -76,6 +119,18 @@
     </footer>
 
     <script src="content.js"></script>
+    <script>
+      (function () {
+        var cfg = (window.DANK_STREET && window.DANK_STREET.analytics) || {};
+        var domain = cfg.plausibleDomain;
+        if (!domain) return;
+        var s = document.createElement("script");
+        s.defer = true;
+        s.setAttribute("data-domain", domain);
+        s.src = "https://plausible.io/js/script.js";
+        document.head.appendChild(s);
+      })();
+    </script>
     <script src="js/scramble.js" defer></script>
     <script src="js/slab.js" defer></script>
     <script src="js/audio.js" defer></script>

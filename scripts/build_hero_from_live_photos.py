@@ -5,8 +5,8 @@ Source of truth:
 
 Strategy:
   - Prefer landscape masters for the hero wash (fills wide desktop without bars).
-  - Export long-edge ~2880px JPEG q85 progressive so cover-scale on retina
-    does not upscale into pixelation.
+  - Export long-edge ~2048px JPEG q78 progressive (headshot ~1200px) so
+    cover-scale stays sharp without oversized downloads.
   - Never upscale past the source.
   - Misnamed HEIC (DANK STREET.jpg) is decoded via ffmpeg.
 """
@@ -36,8 +36,9 @@ def find_ffmpeg() -> Path | None:
 
 FFMPEG = find_ffmpeg()
 
-LONG_EDGE = 2880
-JPEG_QUALITY = 85
+LONG_EDGE = 2048
+JPEG_QUALITY = 78
+HEADSHOT_LONG_EDGE = 1200
 
 HERO = [
     ("149A9778.jpg", "live-02-otherworld.jpg"),
@@ -78,8 +79,9 @@ def export(src_name: str, dest_name: str) -> None:
     im = open_image(src).convert("RGB")
     w, h = im.size
     long_edge = max(w, h)
-    if long_edge > LONG_EDGE:
-        scale = LONG_EDGE / long_edge
+    target = HEADSHOT_LONG_EDGE if "headshot" in dest_name else LONG_EDGE
+    if long_edge > target:
+        scale = target / long_edge
         im = im.resize((round(w * scale), round(h * scale)), Image.Resampling.LANCZOS)
     dest = OUT / dest_name
     im.save(dest, "JPEG", quality=JPEG_QUALITY, optimize=True, progressive=True)

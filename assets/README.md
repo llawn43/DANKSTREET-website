@@ -22,9 +22,9 @@ Pipeline notes: `../docs/PHOTO-PIPELINE.md`
 | `og-cover.jpg` | Social share preview (1200×630 from press shot) |
 | `epk.jpg` | Contact “Download EPK” (`Dank Street EPK (2).png`, compressed) |
 | `covers/*.jpg` | Music section release art (800×800) |
-| `photos/live-*.jpg` | Hero wash + contact headshot from LIVE PHOTOS (long edge ~2880, q85) |
-| `photos/poster-01.jpg` … `poster-04.jpg` | Stills from Barbary media-kit video |
-| `social/*.svg` | Socials section brand marks (Simple Icons, 24×24 single-path) |
+| `photos/live-*.jpg` | Hero wash + contact headshot from LIVE PHOTOS (long edge ~2048 / headshot ~1200, q78) |
+| `photos/poster-01.jpg` … `poster-04.jpg` | Stills from Barbary media-kit video (Media gallery) |
+| `social/*.svg` | Socials section brand marks (Simple Icons, 24×24 single-path; includes Beatport) |
 
 ## Audio (`audio/`)
 
@@ -43,9 +43,9 @@ Originals stay in `0_Input/ArtistMarketing/DANK STREET/`.
 
 ## Refreshing content
 
-1. Update tour dates in the Excel file, then edit `../content.js` `tour[]`.
+1. Update tour dates in the Excel file **and** `../content.js` `tour[]` (keep them in sync).
 2. New releases: add a Spotify album ID + cover under `covers/`, then add a `tracks[]` entry; refresh `audio/previews/` + `audio.playlist` if a 30s preview exists.
-3. New live photos: drop into `LIVE PHOTOS`, update `scripts/build_hero_from_live_photos.py`, re-run it (exports ~2880px long-edge, not 1600px).
+3. New live photos: drop into `LIVE PHOTOS`, update `scripts/build_hero_from_live_photos.py`, re-run it (exports ~2048px long-edge).
 4. Re-extract posters with ffmpeg from the media kit when needed.
 5. New social platform: drop a single-path SVG in `img/social/` and add an `icon`
    path to that `socials[]` entry. The mark is painted via CSS `mask`, so its own

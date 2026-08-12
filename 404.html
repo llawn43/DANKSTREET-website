@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>DANK STREET</title>
+    <script>
+      (function () {
+        // GitHub Pages path fallback for hash SPA.
+        // /tour -> /#tour so shared path URLs still land on a section.
+        var segs = location.pathname.replace(/\/+$/, "").split("/").filter(Boolean);
+        var last = segs[segs.length - 1] || "";
+        if (!last || last.toLowerCase() === "index.html" || last.toLowerCase() === "404.html") {
+          location.replace("/#home");
+          return;
+        }
+        var known = {
+          music: 1,
+          tour: 1,
+          media: 1,
+          gallery: 1,
+          socials: 1,
+          merch: 1,
+          signup: 1,
+          contact: 1,
+          about: 1,
+          home: 1,
+        };
+        var key = last.toLowerCase();
+        location.replace("/#" + (known[key] ? key : "home"));
+      })();
+    </script>
+    <meta http-equiv="refresh" content="0;url=/#home" />
+  </head>
+  <body>
+    <p><a href="/#home">DANK STREET</a></p>
+  </body>
+</html>

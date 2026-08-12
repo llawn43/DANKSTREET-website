@@ -19,7 +19,7 @@ Do not pull hero frames from PRESS SHOTS or video stills unless they are copied 
 | Rule | Choice |
 |------|--------|
 | Fill viewport | `background-size: cover` + center (no letterboxing) |
-| Sharpness | Export long edge **2880px**, JPEG q85 progressive (no upscale past source) |
+| Sharpness | Export long edge **2048px**, JPEG q78 progressive (no upscale past source). Headshot ~1200px. |
 | Hero order | Landscapes first, then optional portraits |
 | Rebuild | `scripts/build_hero_from_live_photos.py` |
 | HEIC | Decode with ffmpeg when Pillow cannot open |
