@@ -157,8 +157,7 @@ a {
     calc(40px + env(safe-area-inset-bottom, 0px))
     max(20px, env(safe-area-inset-left, 0px));
   overflow: hidden;
-  transition: opacity 400ms var(--ease), transform 400ms var(--ease),
-    min-height 400ms var(--ease);
+  transition: opacity 400ms var(--ease), transform 400ms var(--ease);
 }
 
 /* When a content route is active, the hero recedes but stays visible */

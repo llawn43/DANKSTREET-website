@@ -497,11 +497,16 @@
     if (route === "home") {
       root.innerHTML = "";
       if (window.DankSlab) window.DankSlab.nudge(0.22);
+      window.scrollTo(0, 0);
     } else {
       root.innerHTML = ROUTES[route]();
       if (window.Scramble) window.Scramble.autoInit(root);
       bindBookingForm();
-      root.scrollIntoView({ behavior: "smooth", block: "start" });
+      // Instant park under the collapsed hero (52svh). Smooth scrollTo
+      // fought upward wheel input (scrollY froze near the park target).
+      var target = Math.max(0, Math.round(window.innerHeight * 0.52) - 12);
+      var max = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+      window.scrollTo(0, Math.min(target, max));
     }
   }
 
