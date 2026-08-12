@@ -1,8 +1,9 @@
 /* =========================================================================
-   router.js — hash routing + section rendering from content.js
-   Routes: #home #music #tour #media #socials #merch #contact
-   Merch CTA opens merch.subscribeUrl (Feature.fm).
-   Tour past dates (isoDate) auto-archive. Contact form uses FormSubmit AJAX.
+   router.js — continuous scroll site from content.js
+   All sections mount once. Native trackpad / mouse / touch scroll moves
+   through Home → Music → Tour → Media → Socials → Merch → Contact.
+   Nav + hash deep-links smooth-scroll; IntersectionObserver keeps the
+   active pill in sync without hijacking the wheel.
    ========================================================================= */
 (function () {
   "use strict";
@@ -10,12 +11,15 @@
   var data = window.DANK_STREET || {};
   var root = document.getElementById("root");
   var navLinks = Array.prototype.slice.call(document.querySelectorAll("[data-nav]"));
+  var SECTION_IDS = ["home", "music", "tour", "media", "socials", "merch", "contact"];
+  var ALIASES = { signup: "merch", gallery: "media", about: "contact", hero: "home" };
+  var scrollingTo = null;
+  var reduceMotion =
+    window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // Footer year
   var yearEl = document.querySelector("[data-year]");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  // --- helpers ---
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
@@ -92,13 +96,14 @@
             attr(d.tickets) +
             '" target="_blank" rel="noopener">Tickets</a>'
           : '<span class="release-meta">Soon</span>';
-        var ics = withIcs && d.isoDate
-          ? '<a class="btn sm" href="' +
-            attr(icsFor(d)) +
-            '" download="dank-street-' +
-            attr(d.isoDate) +
-            '.ics">.ics</a>'
-          : "";
+        var ics =
+          withIcs && d.isoDate
+            ? '<a class="btn sm" href="' +
+              attr(icsFor(d)) +
+              '" download="dank-street-' +
+              attr(d.isoDate) +
+              '.ics">.ics</a>'
+            : "";
         return (
           '<div class="tour-row">' +
           '<div class="tour-date">' +
@@ -119,7 +124,19 @@
       .join("");
   }
 
-  // --- section renderers ---
+  function wrapSection(id, index, title, inner) {
+    return (
+      '<section class="section page-section" id="' +
+      attr(id) +
+      '" data-section="' +
+      attr(id) +
+      '">' +
+      sectionHead(index, title) +
+      inner +
+      "</section>"
+    );
+  }
+
   function renderMusic() {
     var tracks = data.tracks || [];
     var cards = tracks
@@ -169,24 +186,21 @@
         );
       })
       .join("");
-    return (
-      '<section class="section">' +
-      sectionHead("01", "Music") +
-      (tracks.length
+    return wrapSection(
+      "music",
+      "01",
+      "Music",
+      tracks.length
         ? '<div class="grid cols-3">' + cards + "</div>"
-        : '<div class="empty-state">Releases coming soon.</div>') +
-      "</section>"
+        : '<div class="empty-state">Releases coming soon.</div>'
     );
   }
 
   function renderTour() {
     var split = splitTour();
     var body = "";
-    if (split.upcoming.length) {
-      body += tourRows(split.upcoming, true);
-    } else {
-      body += '<div class="empty-state">No upcoming dates. Check back soon.</div>';
-    }
+    if (split.upcoming.length) body += tourRows(split.upcoming, true);
+    else body += '<div class="empty-state">No upcoming dates. Check back soon.</div>';
     if (split.past.length) {
       body +=
         '<h3 class="subhead">Recent</h3>' +
@@ -194,7 +208,7 @@
         tourRows(split.past, false) +
         "</div>";
     }
-    return '<section class="section">' + sectionHead("02", "Tour") + body + "</section>";
+    return wrapSection("tour", "02", "Tour", body);
   }
 
   function renderMedia() {
@@ -235,17 +249,14 @@
         );
       })
       .join("");
-    return (
-      '<section class="section">' +
-      sectionHead("03", "Media") +
+    var inner =
       (m.blurb ? '<p class="lead">' + esc(m.blurb) + "</p>" : "") +
       (grid ? '<div class="media-grid">' + grid + "</div>" : "") +
       vids +
       (!photos.length && !videos.length
         ? '<div class="empty-state">Media coming soon.</div>'
-        : "") +
-      "</section>"
-    );
+        : "");
+    return wrapSection("media", "03", "Media", inner);
   }
 
   function renderSocials() {
@@ -269,13 +280,13 @@
         );
       })
       .join("");
-    return (
-      '<section class="section">' +
-      sectionHead("04", "Socials") +
-      (socials.length
+    return wrapSection(
+      "socials",
+      "04",
+      "Socials",
+      socials.length
         ? '<div class="social-list">' + links + "</div>"
-        : '<div class="empty-state">Social links coming soon.</div>') +
-      "</section>"
+        : '<div class="empty-state">Social links coming soon.</div>'
     );
   }
 
@@ -290,15 +301,11 @@
         esc(m.cta || "Join the list") +
         "</a></p>"
       : "";
-    return (
-      '<section class="section">' +
-      sectionHead("05", "Merch") +
-      badge +
-      '<p class="lead">' +
-      esc(m.blurb || "") +
-      "</p>" +
-      cta +
-      "</section>"
+    return wrapSection(
+      "merch",
+      "05",
+      "Merch",
+      badge + '<p class="lead">' + esc(m.blurb || "") + "</p>" + cta
     );
   }
 
@@ -336,14 +343,13 @@
       );
     }
 
-    var about =
-      (data.bio
-        ? '<div class="about-block"><h3 class="subhead">About</h3><p class="lead">' +
-          esc(data.bio) +
-          "</p>" +
-          (data.billing ? '<p class="lead muted">' + esc(data.billing) + "</p>" : "") +
-          "</div>"
-        : "");
+    var about = data.bio
+      ? '<div class="about-block"><h3 class="subhead">About</h3><p class="lead">' +
+        esc(data.bio) +
+        "</p>" +
+        (data.billing ? '<p class="lead muted">' + esc(data.billing) + "</p>" : "") +
+        "</div>"
+      : "";
 
     var form = "";
     if (c.formEndpoint) {
@@ -370,19 +376,18 @@
       (actions.length ? '<div class="contact-actions">' + actions.join("") + "</div>" : "") +
       (form ? '<h3 class="subhead">Booking form</h3>' + form : "");
 
-    return (
-      '<section class="section">' +
-      sectionHead("06", "Contact") +
-      (shot
-        ? '<div class="contact-layout">' + shot + "<div>" + body + "</div></div>"
-        : body) +
-      "</section>"
+    return wrapSection(
+      "contact",
+      "06",
+      "Contact",
+      shot ? '<div class="contact-layout">' + shot + "<div>" + body + "</div></div>" : body
     );
   }
 
   function bindBookingForm() {
     var form = document.getElementById("bookingForm");
-    if (!form) return;
+    if (!form || form.dataset.bound === "1") return;
+    form.dataset.bound = "1";
     var note = document.getElementById("formNote");
     var endpoint = (data.contact && data.contact.formEndpoint) || "";
     form.addEventListener("submit", function (e) {
@@ -415,7 +420,9 @@
           if (note) {
             note.className = "form-note err";
             note.textContent =
-              "Could not send. Email " + ((data.contact && data.contact.email) || "us") + " directly.";
+              "Could not send. Email " +
+              ((data.contact && data.contact.email) || "us") +
+              " directly.";
           }
         });
     });
@@ -463,57 +470,163 @@
     document.head.appendChild(script);
   }
 
-  var ROUTES = {
-    home: null,
-    music: renderMusic,
-    tour: renderTour,
-    media: renderMedia,
-    socials: renderSocials,
-    merch: renderMerch,
-    contact: renderContact,
-  };
-
-  var ALIASES = { signup: "merch", gallery: "media", about: "contact" };
-
-  function currentRoute() {
-    var h = (location.hash || "#home").replace("#", "").trim().toLowerCase();
+  function normalizeId(raw) {
+    var h = String(raw || "home")
+      .replace(/^#/, "")
+      .trim()
+      .toLowerCase();
     if (ALIASES[h]) h = ALIASES[h];
-    return ROUTES.hasOwnProperty(h) ? h : "home";
+    return SECTION_IDS.indexOf(h) >= 0 ? h : "home";
   }
 
   function setActiveNav(route) {
     navLinks.forEach(function (a) {
-      var target = a.getAttribute("href").replace("#", "");
+      var target = normalizeId(a.getAttribute("href"));
       a.classList.toggle("is-active", target === route);
     });
   }
 
-  function render() {
-    var route = currentRoute();
-    setActiveNav(route);
-    document.body.classList.toggle("route-active", route !== "home");
-    injectEventSchema();
-
-    if (route === "home") {
-      root.innerHTML = "";
-      if (window.DankSlab) window.DankSlab.nudge(0.22);
-      window.scrollTo(0, 0);
+  function setHashSilent(id) {
+    var next = "#" + id;
+    if (location.hash === next) return;
+    if (history.replaceState) {
+      history.replaceState(null, "", next);
     } else {
-      root.innerHTML = ROUTES[route]();
-      if (window.Scramble) window.Scramble.autoInit(root);
-      bindBookingForm();
-      // Instant park under the collapsed hero (52svh). Smooth scrollTo
-      // fought upward wheel input (scrollY froze near the park target).
-      var target = Math.max(0, Math.round(window.innerHeight * 0.52) - 12);
-      var max = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
-      window.scrollTo(0, Math.min(target, max));
+      location.hash = next;
     }
   }
 
-  window.addEventListener("hashchange", render);
+  function scrollToSection(id, behavior) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    scrollingTo = id;
+    setActiveNav(id);
+    setHashSilent(id);
+    el.scrollIntoView({
+      behavior: behavior || (reduceMotion ? "auto" : "smooth"),
+      block: "start",
+    });
+    window.setTimeout(function () {
+      if (scrollingTo === id) scrollingTo = null;
+    }, 900);
+  }
+
+  function mount() {
+    if (!root) return;
+    root.innerHTML =
+      renderMusic() +
+      renderTour() +
+      renderMedia() +
+      renderSocials() +
+      renderMerch() +
+      renderContact();
+
+    if (window.Scramble) window.Scramble.autoInit(root);
+    bindBookingForm();
+    injectEventSchema();
+    observeSections();
+
+    var initial = normalizeId(location.hash);
+    if (initial !== "home") {
+      // Wait a frame so layout heights are correct.
+      requestAnimationFrame(function () {
+        scrollToSection(initial, "auto");
+      });
+    } else {
+      setActiveNav("home");
+    }
+  }
+
+  function observeSections() {
+    var targets = [document.getElementById("home")].concat(
+      SECTION_IDS.slice(1)
+        .map(function (id) {
+          return document.getElementById(id);
+        })
+        .filter(Boolean)
+    );
+
+    if (!("IntersectionObserver" in window)) {
+      window.addEventListener(
+        "scroll",
+        function () {
+          if (scrollingTo) return;
+          var y = window.scrollY + window.innerHeight * 0.35;
+          var current = "home";
+          targets.forEach(function (el) {
+            if (!el) return;
+            if (el.offsetTop <= y) current = el.id;
+          });
+          setActiveNav(current);
+          setHashSilent(current);
+          document.body.classList.toggle("is-past-hero", current !== "home");
+        },
+        { passive: true }
+      );
+      return;
+    }
+
+    var ratios = {};
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          ratios[entry.target.id] = entry.intersectionRatio;
+        });
+        if (scrollingTo) return;
+        var best = "home";
+        var bestRatio = -1;
+        SECTION_IDS.forEach(function (id) {
+          var r = ratios[id] || 0;
+          if (r > bestRatio) {
+            bestRatio = r;
+            best = id;
+          }
+        });
+        // Prefer home when near the top of the page.
+        if (window.scrollY < window.innerHeight * 0.45) best = "home";
+        setActiveNav(best);
+        setHashSilent(best);
+        document.body.classList.toggle("is-past-hero", best !== "home");
+      },
+      {
+        root: null,
+        threshold: [0, 0.2, 0.35, 0.5, 0.65, 0.8, 1],
+        rootMargin: "-12% 0px -40% 0px",
+      }
+    );
+
+    targets.forEach(function (el) {
+      if (el) observer.observe(el);
+    });
+  }
+
+  navLinks.forEach(function (a) {
+    a.addEventListener("click", function (e) {
+      var id = normalizeId(a.getAttribute("href"));
+      e.preventDefault();
+      scrollToSection(id);
+      if (id === "home" && window.DankSlab) window.DankSlab.nudge(0.18);
+    });
+  });
+
+  // Hero CTAs are plain hash links — intercept for smooth scroll.
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (!a || a.hasAttribute("data-nav")) return;
+    var id = normalizeId(a.getAttribute("href"));
+    if (!document.getElementById(id)) return;
+    e.preventDefault();
+    scrollToSection(id);
+  });
+
+  window.addEventListener("hashchange", function () {
+    if (scrollingTo) return;
+    scrollToSection(normalizeId(location.hash));
+  });
+
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", render);
+    document.addEventListener("DOMContentLoaded", mount);
   } else {
-    render();
+    mount();
   }
 })();

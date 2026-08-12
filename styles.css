@@ -50,8 +50,9 @@ body {
   font-family: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  overscroll-behavior: none;
+  overscroll-behavior-y: auto;
   overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 body {
@@ -160,12 +161,7 @@ a {
   transition: opacity 400ms var(--ease), transform 400ms var(--ease);
 }
 
-/* When a content route is active, the hero recedes but stays visible */
-body.route-active .hero {
-  min-height: 52vh;
-  min-height: 52svh;
-  opacity: 0.9;
-}
+/* Hero stays full-viewport; content scrolls beneath it continuously. */
 
 .hero-bg {
   position: absolute;
@@ -271,9 +267,9 @@ body.route-active .hero {
   justify-content: center;
 }
 
-body.route-active .hero-cta {
-  opacity: 0.35;
-  pointer-events: none;
+/* When scrolled past the hero, keep a soft cue — hero stays full-bleed */
+body.is-past-hero .hero-cta {
+  opacity: 0.55;
 }
 
 /* Contact extras */
@@ -398,6 +394,16 @@ body.route-active .hero-cta {
 
 .view:empty {
   padding: 0;
+}
+
+.page-section {
+  scroll-margin-top: calc(var(--nav-h) + 12px);
+  padding: clamp(48px, 8vh, 96px) 0 24px;
+  min-height: min(72vh, 900px);
+}
+
+.page-section + .page-section {
+  border-top: 1px solid var(--border);
 }
 
 .section {
@@ -799,10 +805,6 @@ img {
   .slab {
     width: min(40vmin, 240px);
     height: min(40vmin, 240px);
-  }
-  body.route-active .hero {
-    min-height: 42vh;
-    min-height: 42svh;
   }
   .grid.cols-2,
   .grid.cols-3 {
