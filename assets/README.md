@@ -1,7 +1,8 @@
 # DANK STREET — assets
 
 Populated from:
-- `0_Input/ArtistMarketing/DANK STREET/DANK STREET_Tour_Info.xlsx` (tour)
+- [`../content.js`](../content.js) `tour[]` / `tourPast[]` — **canonical tour list for the live site**
+- `0_Input/ArtistMarketing/DANK STREET/DANK STREET_Tour_Info.xlsx` — media-kit export only; keep in sync, do not treat as what the site serves
 - https://linktr.ee/dankstreetmusic (socials + ticket links)
 - Spotify / iTunes (release covers + Sound toggle 30s previews)
 - **`DANK MEDIA KIT 2026/LIVE PHOTOS`** — sole source for hero + contact photos going forward
@@ -17,8 +18,10 @@ Pipeline notes: `../docs/PHOTO-PIPELINE.md`
 | `logo-hero.png` | Hero white wordmark (`Name Logo_White.png`, web-sized) |
 | `icon-logo.png` | 3D hero emblem source (`ICON LOGO.png`, web-sized) |
 | `icon-logo-rim.png` | Solid silhouette for extrusion edges |
-| `favicon.png` | Tab icon (DS symbol inverted → light, 48×48) |
-| `ds-mark.png` | Optional DS symbol mark |
+| `favicon.png` | Tab icon — white DS monogram on brand-blue (`#3d6bff`) rounded tile, 48×48 |
+| `apple-touch-icon.png` | iOS home-screen icon, 180×180, same treatment |
+| `calendar.svg` | Tour “Add to calendar” mark (stroke icon; live button uses the inline copy in `js/router.js`) |
+| `ds-mark.png` | Optional DS symbol mark (source for the favicon monogram) |
 | `og-cover.jpg` | Social share preview (1200×630 from press shot) |
 | `epk.jpg` | Contact “Download EPK” (`Dank Street EPK (2).png`, compressed) |
 | `covers/*.jpg` | Music section release art (800×800) |
@@ -43,7 +46,7 @@ Originals stay in `0_Input/ArtistMarketing/DANK STREET/`.
 
 ## Refreshing content
 
-1. Update tour dates in the Excel file **and** `../content.js` `tour[]` (keep them in sync).
+1. Edit tour dates in `../content.js` `tour[]` / `tourPast[]` first (that is what the live site serves). Then refresh the Excel export so the media kit matches. Optional `startTime` / `endTime` (`HH:MM`) go on the `content.js` row.
 2. New releases: add a Spotify album ID + cover under `covers/`, then add a `tracks[]` entry; refresh `audio/previews/` + `audio.playlist` if a 30s preview exists.
 3. New live photos: drop into `LIVE PHOTOS`, update `scripts/build_hero_from_live_photos.py`, re-run it (exports ~2048px long-edge).
 4. Re-extract posters with ffmpeg from the media kit when needed.

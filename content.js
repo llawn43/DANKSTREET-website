@@ -125,7 +125,9 @@ window.DANK_STREET = {
     },
   ],
 
-  /* --- Tour (calendar + Linktree tickets; past dates auto-archive) ---- */
+  /* --- Tour (calendar + Linktree tickets; past dates auto-archive) ----
+     Optional per row: startTime / endTime as "HH:MM" (used in .ics; default 21:00–23:59).
+     Optional ticketsLabel overrides the empty-ticket text (else Soon upcoming / N/A past). */
   tour: [
     {
       date: "AUG 15",
@@ -187,7 +189,7 @@ window.DANK_STREET = {
   /* --- Media / press gallery ----------------------------------------- */
   media: {
     heading: "Media",
-    blurb: "Live stills and set frames from the 2026 media kit.",
+    blurb: "",
     photos: [
       { src: "assets/img/photos/live-02-otherworld.jpg", alt: "DANK STREET at Otherworld" },
       { src: "assets/img/photos/live-09-barbary-wide.jpg", alt: "DANK STREET at The Barbary" },
@@ -198,13 +200,7 @@ window.DANK_STREET = {
       { src: "assets/img/photos/poster-03.jpg", alt: "Stage frame" },
       { src: "assets/img/photos/poster-04.jpg", alt: "Crowd frame" },
     ],
-    videos: [
-      {
-        title: "Site promo",
-        blurb: "15-second walkthrough of dankstreetmusic.com",
-        src: "dank-street-promo-15s.mp4",
-      },
-    ],
+    videos: [],
   },
 
   /* --- Socials -------------------------------------------------------- */

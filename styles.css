@@ -610,6 +610,14 @@ body.is-past-hero .hero-cta {
   font-size: 11px;
 }
 
+.btn.sm.cal-btn {
+  padding: 7px 10px;
+}
+
+.cal-icon {
+  display: block;
+}
+
 /* Coming-soon badge */
 .coming-soon {
   display: inline-block;

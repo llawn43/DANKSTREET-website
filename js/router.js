@@ -68,10 +68,23 @@
     );
   }
 
+  function icsStamp(isoDate, time, fallbackHms) {
+    var t = time == null || time === "" ? fallbackHms : String(time).trim();
+    if (/^\d{1,2}:\d{2}$/.test(t)) {
+      var parts = t.split(":");
+      t = ("0" + parts[0]).slice(-2) + parts[1] + "00";
+    } else if (/^\d{4}$/.test(t)) {
+      t = t + "00";
+    } else if (!/^\d{6}$/.test(t)) {
+      t = fallbackHms;
+    }
+    return isoDate.replace(/-/g, "") + "T" + t;
+  }
+
   function icsFor(d) {
     if (!d.isoDate) return "";
-    var start = d.isoDate.replace(/-/g, "") + "T210000";
-    var end = d.isoDate.replace(/-/g, "") + "T235900";
+    var start = icsStamp(d.isoDate, d.startTime, "210000");
+    var end = icsStamp(d.isoDate, d.endTime, "235900");
     var summary = "DANK STREET — " + (d.venue || d.city || "Show");
     var desc = [d.city, d.venue, d.tickets].filter(Boolean).join(" | ");
     var body =
@@ -88,21 +101,30 @@
     return "data:text/calendar;charset=utf-8," + encodeURIComponent(body);
   }
 
-  function tourRows(dates, withIcs) {
+  var CAL_ICON =
+    '<svg class="cal-icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">' +
+    '<rect x="3.5" y="5" width="17" height="15.5" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/>' +
+    '<path d="M3.5 10h17M8 3.2v3.6M16 3.2v3.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>' +
+    "</svg>";
+
+  function tourRows(dates, withIcs, isPast) {
     return dates
       .map(function (d) {
+        var emptyLabel = d.ticketsLabel || (isPast ? "N/A" : "Soon");
         var cta = isRealUrl(d.tickets)
           ? '<a class="btn sm primary" href="' +
             attr(d.tickets) +
             '" target="_blank" rel="noopener">Tickets</a>'
-          : '<span class="release-meta">Soon</span>';
+          : '<span class="release-meta">' + esc(emptyLabel) + "</span>";
         var ics =
           withIcs && d.isoDate
-            ? '<a class="btn sm" href="' +
+            ? '<a class="btn sm cal-btn" href="' +
               attr(icsFor(d)) +
               '" download="dank-street-' +
               attr(d.isoDate) +
-              '.ics">.ics</a>'
+              '.ics" aria-label="Add to calendar">' +
+              CAL_ICON +
+              "</a>"
             : "";
         return (
           '<div class="tour-row">' +
@@ -199,13 +221,13 @@
   function renderTour() {
     var split = splitTour();
     var body = "";
-    if (split.upcoming.length) body += tourRows(split.upcoming, true);
+    if (split.upcoming.length) body += tourRows(split.upcoming, true, false);
     else body += '<div class="empty-state">No upcoming dates. Check back soon.</div>';
     if (split.past.length) {
       body +=
         '<h3 class="subhead">Recent</h3>' +
         '<div class="tour-archive">' +
-        tourRows(split.past, false) +
+        tourRows(split.past, false, true) +
         "</div>";
     }
     return wrapSection("tour", "02", "Tour", body);

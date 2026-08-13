@@ -24,8 +24,8 @@ Double-click `start-review.command`, or `python3 -m http.server 8080`.
 |---------|----------|
 | **Home** | Wordmark, 3D emblem, photo wash, Music / Tour / Book CTAs, Sound toggle |
 | **Music** | Releases, embeds, Spotify / Apple / SoundCloud / Beatport links |
-| **Tour** | Upcoming dates + ticket links + `.ics`; past shows under Recent |
-| **Media** | Photo gallery + promo video |
+| **Tour** | Upcoming dates + ticket links + calendar icon; past shows under Recent (N/A if no tickets) |
+| **Media** | Photo gallery (kit videos pending Artist pick — DS-005) |
 | **Socials** | Instagram, Linktree, Spotify, SoundCloud, Apple Music, Beatport |
 | **Merch** | Feature.fm waitlist CTA |
 | **Contact** | About/bio, headshot, mailto, EPK download, booking form |

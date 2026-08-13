@@ -59,7 +59,7 @@ a real URL. Add images/audio to `assets/` (see `assets/README.md`).
 - **Ambient audio** toggle (autoplay-safe; remembers preference) + optional UI hover/click SFX.
 - Hash deep-links + continuous scroll: **Home / Music / Tour / Media / Socials / Merch / Contact** (legacy `#signup` → `#merch`).
 - Native trackpad / mouse / touch scrolling through all sections; nav pills smooth-scroll and stay in sync via IntersectionObserver.
-- Tour auto-archives past `isoDate` rows; `.ics` download per upcoming show; JSON-LD events.
+- Tour auto-archives past `isoDate` rows; calendar-icon `.ics` download per upcoming show; JSON-LD events.
 - Coming-soon **Merch** page with a CTA to the Feature.fm subscribe page (`merch.subscribeUrl`).
 - Contact booking form (FormSubmit) + About/bio from `content.js`.
 - Responsive + `prefers-reduced-motion` friendly.
