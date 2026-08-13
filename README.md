@@ -9,10 +9,13 @@ under `0_Input/ArtistMarketing/DANK STREET/`. Edit `content.js` to refresh.
 
 No build step, no frameworks. Just HTML/CSS/vanilla JS.
 
+Open work lives in **[BACKLOG.md](BACKLOG.md)** (status, priority, origin, owner, dates, how to fix).
+
 ## Structure
 
 ```
 dank-street-site/
+├── BACKLOG.md        # site review tracker — start here for open work
 ├── index.html        # shell: glass nav, hero canvas, audio elements
 ├── styles.css        # theme tokens + layout + glassmorphism + responsive
 ├── content.js        # << EDIT THIS: all site content + asset paths

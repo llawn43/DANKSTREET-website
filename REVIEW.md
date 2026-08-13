@@ -2,6 +2,8 @@
 
 Self-contained static site for **dankstreetmusic.com**. Works on Mac and Windows.
 
+Known issues and the update process live in **[BACKLOG.md](BACKLOG.md)**. Walk the sections below, then add anything new to the backlog before closing the session.
+
 ## Quick start
 
 ### Windows
